@@ -1,8 +1,9 @@
-require File.expand_path('../lib/personal_api_client/version', __FILE__)
+$:.push File.expand_path("../lib", __FILE__)
+require "personal_api_client/version"
 
 Gem::Specification.new do |s|
   s.name        = 'personal_api_client'
-  s.version     = PersonalApiClient::VERSION
+  s.version     = PersonalApi::VERSION
   s.date        = '2012-10-31'
   s.summary		= "Personal API Client"
   s.description = "Personal library for easier interaction with Personal API"
