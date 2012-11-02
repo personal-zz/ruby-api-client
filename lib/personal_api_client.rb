@@ -5,13 +5,15 @@ class PersonalApiClient
   API_VERSION_1 = "v1"
   API_PATH = "api"
 
+  attr_accessor :client_id
+
   def api_path
     "/#{API_PATH}/#{API_VERSION_1}"
   end
 
-  def initialize(at, client_id)
+  def initialize(at, cl_id)
     @access_token = at
-    @client_id = client_id
+    @client_id = cl_id
   end
 
   #Getting List of Gems
@@ -40,7 +42,7 @@ class PersonalApiClient
   end
 
   #Remove Gem Access
-  def remove_gem_access(gem_instance_id, owner_id)
+  def remove_gem_access(gem_instance_id, owner_id=nil)
     delete(add_client_id_to "#{api_path}/gems/#{gem_instance_id}/access/#{owner_id}")
   end
 
@@ -91,9 +93,5 @@ class PersonalApiClient
 
   def add_client_id_to(url)
     "#{url}?client_id=#{client_id}"
-  end
-
-  def client_id
-    @client_id
   end
 end
