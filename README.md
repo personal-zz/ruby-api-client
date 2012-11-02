@@ -32,33 +32,44 @@ personal_api_client.gem
 
 	6.2 Use some of the methods of the client to manipulate data (consult http://developer.personal.com/docs if you need to assemble request body):
 
+
 	Getting List of Gems:
+
   	get_list_of_gems
     
     Read Existing Gem:
+
   	get_gem(gem_instance_id)
     
   	Write to Existing Gem:
+
   	write_existing_gem(gem_instance_id, body, client_password)
     
   	Create New Gem:
+
   	create_gem(body, client_password)
 
   	Delete Existing Gem:
+
   	delete_gem(gem_instance_id)
     
     Remove Gem Access:
+
   	remove_gem_access(gem_instance_id, owner_id=nil)
     
   	Get Gem Schema:
+
   	get_gem_schema(gem_template_id=nil)
     
   	Get Gem Schema Version:
+
   	get_gem_schema_version
     
   	Granting Access:
+
   	grant_access(body, client_password)
     
   	Requesting Access:
+  	
   	request_access(body)
     
