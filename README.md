@@ -1,4 +1,6 @@
-#personal_api_client.gem
+#Personal API Client
+
+The Personal API Client Gem allows you to quickly perform OAuth2 and basic operations to get you using the Personal API ASAP.
 
 ##Install
 
@@ -22,11 +24,11 @@ Remember to install:
 ## OAuth Flow:
 1. Initialize your Personal Oauth2 Client: 
 
-	parameters = {:client_id => your_client_id, 
-     :client_secret => your_client_secret, 
-     :target_site => api_endpoint_i_e_https://api-sandbox.personal.com, 
-     :callback_uri => path_to_your_method_where_authorization_code_will_be_sent_i_e_oauth2/my_callback_method, 
-     :scope => scope_as_per_http://developer.personal.com/docs/read/authentication/Authorization_Code}
+    parameters = {:client_id => your_client_id, 
+        :client_secret => your_client_secret, 
+        :target_site => api_endpoint_i_e_https://api-sandbox.personal.com, 
+        :callback_uri => path_to_your_method_where_authorization_code_will_be_sent_i_e_oauth2/my_callback_method, 
+        :scope => scope_as_per_http://developer.personal.com/docs/read/authentication/Authorization_Code}
 
     client = Oauth2Client.initialize_auth_code(parameters)
 
