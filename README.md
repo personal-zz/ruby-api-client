@@ -1,65 +1,90 @@
-personal_api_client.gem
-=======================
+#personal_api_client.gem
 
-#INSTRUCTIONS:
+##Install
 
-1. Build the gem with following command: gem build personal_api_client.gemspec
-2. Put following line in Gemfile of your application: gem 'personal_api_client', :path => "path_to_the_folder_where_your_gem_is"
-3. Run bundle command
-4. Congrats! You've succesfully built and installed the gem.
+Manual Install:
+
+    gem install personal_api_client
+
+Gemfile:
+
+    gem "personal_api_client", "~> 0.0.1"
+
+Gemfile to stay bleeding edge (not recommended):
+
+    gem "personal_api_client", :git => "git://github.com/Personal-Inc/ruby-api-client.git"
+
+Remember to install:
+
+    bundle install
 
 
-5. Getting the access token:
-	5.1 Initialize your Personal Oauth2 Client: client = Oauth2Client.initialize_auth_code(parameters) where parameters are:
+## OAuth Flow:
+1. Initialize your Personal Oauth2 Client: 
 
-	{:client_id => your_client_id, 
+	parameters = {:client_id => your_client_id, 
      :client_secret => your_client_secret, 
      :target_site => api_endpoint_i_e_https://api-sandbox.personal.com, 
      :callback_uri => path_to_your_method_where_authorization_code_will_be_sent_i_e_oauth2/my_callback_method, 
      :scope => scope_as_per_http://developer.personal.com/docs/read/authentication/Authorization_Code}
 
-    5.2 Redirect to authorize URL (recirect_to client.authorize_url)
+    client = Oauth2Client.initialize_auth_code(parameters)
 
-    5.3 Authorization code will arrive to the callback URL you specified in :callback_uri. Call get_access_token:
-    access_token = client.get_access_token(parameters) where parameters are:
+1. Redirect to authorize URL
 
-    {:code => params[:code],
-	 :callback_uri => the_same_as_in_previous_request}
+    redirect_to client.authorize_url
+
+1. Authorization code will arrive to the callback URL you specified in first step
+    
+    parameters = {:code => params[:code], :callback_uri => the_same_as_in_previous_request}
+    access_token = client.get_access_token(parameters)
+
+##API Interaction
 
 6. Get the data
-	6.1 Initialize Personal API Client:
-	personal_api_client = PersonalApiClient.new(access_token, your_client_id)
 
-	6.2 Use some of the methods of the client to manipulate data (consult http://developer.personal.com/docs if you need to assemble request body):
+Initialize Personal API Client:
+	
+    personal_api_client = PersonalApiClient.new(access_token, your_client_id)
 
+Use some of the methods of the client to manipulate data (consult http://developer.personal.com/docs if you need to assemble request body):
+* Getting List of Gems
 
-	Getting List of Gems
-  	get_list_of_gems
+    get_list_of_gems
     
-    Read Existing Gem
-  	get_gem(gem_instance_id)
-    
-  	Write to Existing Gem
-  	write_existing_gem(gem_instance_id, body, client_password)
-    
-  	Create New Gem
-  	create_gem(body, client_password)
+* Read Existing Gem
 
-  	Delete Existing Gem
-  	delete_gem(gem_instance_id)
+    get_gem(gem_instance_id)
     
-    Remove Gem Access
-  	remove_gem_access(gem_instance_id, owner_id=nil)
+* Write to Existing Gem
+
+    write_existing_gem(gem_instance_id, body, client_password)
     
-  	Get Gem Schema
-  	get_gem_schema(gem_template_id=nil)
+* Create New Gem
+ 
+    create_gem(body, client_password)
+
+* Delete Existing Gem
+
+    delete_gem(gem_instance_id)
     
-  	Get Gem Schema Version
-  	get_gem_schema_version
+* Remove Gem Access
     
-  	Granting Access
-  	grant_access(body, client_password)
+    remove_gem_access(gem_instance_id, owner_id=nil)
     
-  	Requesting Access
-  	request_access(body)
+* Get Gem Schema
+    
+    get_gem_schema(gem_template_id=nil)
+    
+* Get Gem Schema Version
+    
+    get_gem_schema_version
+    
+* Granting Access
+    
+    grant_access(body, client_password)
+    
+* Requesting Access
+
+    request_access(body)
     
