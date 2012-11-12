@@ -22,7 +22,7 @@ Remember to install:
 
 
 ## OAuth Flow:
-1. Initialize your Personal Oauth2 Client: 
+### Initialize your Personal Oauth2 Client: 
 
     parameters = {:client_id => your_client_id, 
         :client_secret => your_client_secret, 
@@ -32,61 +32,59 @@ Remember to install:
 
     client = Oauth2Client.initialize_auth_code(parameters)
 
-1. Redirect to authorize URL
+### Redirect to authorize URL
 
     redirect_to client.authorize_url
 
-1. Authorization code will arrive to the callback URL you specified in first step
+### Authorization code will arrive to the callback URL you specified in first step
     
     parameters = {:code => params[:code], :callback_uri => the_same_as_in_previous_request}
     access_token = client.get_access_token(parameters)
 
 ##API Interaction
 
-6. Get the data
-
 Initialize Personal API Client:
 	
     personal_api_client = PersonalApiClient.new(access_token, your_client_id)
 
 Use some of the methods of the client to manipulate data (consult http://developer.personal.com/docs if you need to assemble request body):
-* Getting List of Gems
+
+### Get List of Gems
 
     get_list_of_gems
     
-* Read Existing Gem
+### Read Existing Gem
 
     get_gem(gem_instance_id)
     
-* Write to Existing Gem
+### Write to Existing Gem
 
     write_existing_gem(gem_instance_id, body, client_password)
     
-* Create New Gem
+### Create New Gem
  
     create_gem(body, client_password)
 
-* Delete Existing Gem
+### Delete Existing Gem
 
     delete_gem(gem_instance_id)
     
-* Remove Gem Access
+### Remove Gem Access
     
     remove_gem_access(gem_instance_id, owner_id=nil)
     
-* Get Gem Schema
+### Get Gem Schema
     
     get_gem_schema(gem_template_id=nil)
     
-* Get Gem Schema Version
+### Get Gem Schema Version
     
     get_gem_schema_version
     
-* Granting Access
+### Grant Access
     
     grant_access(body, client_password)
     
-* Requesting Access
+### Request Access
 
     request_access(body)
-    
