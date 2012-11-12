@@ -88,3 +88,8 @@ Use some of the methods of the client to manipulate data (consult http://develop
 ### Request Access
 
     request_access(body)
+
+##See Also
+
+* http://developer.personal.com/docs/
+* https://rubygems.org/gems/personal_api_client
