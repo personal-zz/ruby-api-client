@@ -68,6 +68,20 @@ class PersonalApiClient
     post(add_client_id_to "#{api_path}/access/request", :body=>body)
   end
 
+  #Getting gem tags
+  def get_gem_tags(gem_instance_id)
+    get(add_client_id_to "#{api_path}/gems/#{gem_instance_id}/tags")
+  end
+
+  #Creating gem tags
+  def create_gem_tags(gem_instance_id, tags=[])
+    post(add_client_id_to "#{api_path}/gems/#{gem_instance_id}/tags", {"tag"=>tags.to_a})
+  end
+
+  def remove_gem_tags(gem_instance_id, tags=[])
+    delete(add_client_id_to "#{api_path}/gems/#{gem_instance_id}/tags", {"tag"=>tags.to_a})
+  end
+
   protected
   def get(resource, params = {})
     fire(__method__, resource, :params => params)
