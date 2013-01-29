@@ -7,10 +7,9 @@ Gem::Specification.new do |s|
   s.summary		= "Personal API Client"
   s.description = "Personal library for easier interaction with Personal API"
   s.authors     = ["Adnan Karac", "Mike Spainhower"]
-  s.add_runtime_dependency "oauth2", ["~> 0.8"]
-  s.add_runtime_dependency "multi_json", ["~> 1.0"]
+  s.add_dependency "oauth2", ["~> 0.8"]
   s.email       = 'dev@personal.com'
-  s.files       = `git ls-files`.split($\)
+  s.files       = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
   s.rubyforge_project = 'personal_api_client'
   s.homepage    = "https://github.com/Personal-Inc/ruby-api-client"

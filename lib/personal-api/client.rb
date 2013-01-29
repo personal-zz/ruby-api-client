@@ -1,97 +1,89 @@
+module Personal
+    module API
+        class Client
+            def initialize options
+                @conn = Personal::API::Connection.new options[:at_hash]
+            end
 
-class PersonalApiClient
-    PROTO = "https"
-    HOST = "sandbox.personal.com"#TODO: move to config
-    URL_PRE = "/api/v1/"
+            def get_gems_list filter
+                if filter and ["my","others"].include? filter 
+                    @conn.get "gems/#{filter}"
+                else
+                    @conn.get "gems"
+                end
+            end
 
-    def initialize access_token, client_id, client_secret, secure_password
-        @at, @cid, @cs, @sp = access_token, client_id, client_secret, secure_password || client_secret
+            def get_gem gem_instance_id
+                @conn.get "gems/#{gem_instance_id}"
+            end
 
-        conn_opts = {
-            :params = {"client_id" => client_id}
-            :headers = {
-                "Content-Type" => "application/json",
-                "Authorization" => "Bearer #{access_token}"
-                "Secure-Password" => @sp
-            }
-        }
-        @conn = Faraday.new("#{PROTO}://#{HOST}", conn_opts) do |faraday|
-            faraday.response :logger
-            faraday.adapter Faraday.default_adapter
-        end
-    end
+            def delete_gem gem_instance_id
+                @conn.delete "gems/#{gem_instance_id}"
+            end
 
-    def get_gems_list filter
-        if filter and ["my","others"].include? filter 
-            get "gems/#{filter}"
-        else
-            get "gems"
-        end
-    end
+            def write_gem gem_instance_id, gem
+                @conn.put "gems/#{gem_instance_id}", gem
+            end
 
-    def get_gem gem_instance_id
-        get "gems/#{gem_instance_id}"
-    end
+            def create_gem gem
+                @conn.post "gems", gem
+            end
 
-    def delete_gem gem_instance_id
-        delete "gems/#{gem_instance_id}"
-    end
+            #Tags
+            def tag_gem gem_instance_id, tag_arr
+                body = {:tag => tag_arr}
+                @conn.post "gems/#{gem_instance_id}/tags", body
+            end
 
-    def write_gem gem_instance_id, gem
-        put "gems/#{gem_instance_id}", gem
-    end
+            def get_gem_tags gem_instance_id
+                @conn.get "gems/#{gem_instance_id}/tags"
+            end
 
-    def create_gem gem
-        post "gems", gem
-    end
+            def browse_tag tag
+                body = {
+                    :metadata=> {
+                        :tag => ["#{tag}"]
+                    }
+                }
+                @conn.post("metadata/browse?object_type=profile&query=#{URI::encode tag}", body)
+            end
 
-    def get_gem_schema gem_template_id=nil
-        resource = "schema"
-        resource << "/#{gem_template_id}" if gem_template_id
-        get resource
-    end
+            def untag_gem gem_instance_id, tag_arr
+                body = {:tag => tag_arr}
+                @conn.delete "gems/#{gem_instance_id}/tags", body
+            end
 
-    def attach_file gem_instance_id, filename, io_obj
-        @conn.post do |req|
-            req.url "file"
-            req.headers["Content-Type"] = "multipart/formdata"
-            req.params["files[]"] = filename
-            req.params["gem_id"] = gem_instance_id
-            req.body = Faraday::UploadIO.new(io_obj, 'application/octet-stream', io_obj)
-        end
-    end
+            # Schema #
+            def get_gem_schema gem_template_id=nil
+                resource = "schema"
+                resource << "/#{gem_template_id}" if gem_template_id
+                @conn.get resource
+            end
 
-    #get_file
-    def get_file file_id
-        @conn.get do |req|
-            req.url "file"
-            req.body = Faraday::UploadIO.new(io_obj, 'application/octet-stream', io_obj)
-        end
-    end
-    
-    #delete_file
-    private
+            #Access
+            def grant_access gems_arr, owners_arr, message
+                body = {
+                    :gems => gems_arr,
+                    :owners => owners_arr.map {|owner| {:type => "email", :value => owner}},
+                    :message => message,
+                    :allowadopt => false
+                }
+                @conn.post "access/grant", body
+            end
 
-    def get resource
-        fire __method__, resource, nil
-    end
+            #Contacts
+            def get_contacts
+                @conn.get "contact"
+            end
 
-    def delete resource
-        fire __method__, resource, nil
-    end
+            # Files #
+            def attach_file gem_instance_id, filename, io_obj
+                @conn.post_file gem_instance_id, filename, io_obj
+            end
 
-    def put resource, data
-        fire __method__, resource, data
-    end
-
-    def post resource, data
-        fire __method__, resource, data
-    end
-
-    def fire(verb, resource, body)
-        @conn.method(verb).call do |req|
-            req.url resource
-            if body then req.body = JSON.stringify body end
-        end
+            def get_file file_id
+                @conn.get_file file_id
+            end
+         end
     end
 end
