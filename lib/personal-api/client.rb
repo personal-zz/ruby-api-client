@@ -1,8 +1,8 @@
 module Personal
     module API
         class Client
-            def initialize options
-                @conn = Personal::API::Connection.new options[:at_hash]
+            def initialize at_hash, options = {}
+                @conn = Personal::API::Connection.new at_hash
             end
 
             def get_gems_list filter

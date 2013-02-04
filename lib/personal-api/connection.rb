@@ -3,7 +3,7 @@ module Personal
         class Connection
             attr_accessor :http_client
 
-            def initialize at_hash
+            def initialize at_hash, options = {}
                 @oauth2_client = 
                 @access_token = OAuth2::AccessToken.from_hash @oauth2_client, at_hash
                 check_refresh
@@ -23,12 +23,7 @@ module Personal
 
             def get_file file_id
                 res = @http_client.get "file/#{URI::encode file_id}"
-
-                if res.status == 200
-                    return res.body
-                else
-                    err res
-                end
+                if res.status == 200 then return res.body else err res end
             end
 
             def post_file gem_instance_id, filename, io_obj
@@ -70,6 +65,10 @@ module Personal
             def check_refresh
                 if @access_token.expired?
                     @access_token.refresh!
+                    @http_client.headers {
+                        "Authorization" => "Bearer #{@access_token.token}",
+                        "Secure-Password" => (Personal::API::Config.client_password || Personal::API::Config.client_secret)
+                    }
                 end
             end
 
