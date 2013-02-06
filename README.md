@@ -14,7 +14,7 @@ Gemfile:
 
 Gemfile to stay bleeding edge (not recommended):
 
-    gem "personal_api_client", :git => "git://github.com/Personal-Inc/ruby-api-client.git"
+    gem "personal_api_client", :git => "git://github.com/Personal/ruby-api-client.git"
 
 Remember to install:
 
