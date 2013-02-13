@@ -1,4 +1,5 @@
 require 'oauth2_client'
+require 'personal_api_client/version'
 
 # TODO: create body builders for post request and make post requests parametrized
 class PersonalApiClient
@@ -11,6 +12,15 @@ class PersonalApiClient
     "/#{API_PATH}/#{API_VERSION_1}"
   end
 
+  # just random method for testing  @@@@@@@@@@@@@@@@@@@@@@@@@
+  # self means static and thus attached to the class
+  # but a method like api_path is not static and thus you have
+  # to create a instance of that first or use self to attach it to the 
+  # class
+  def self.version_string
+    "#{PersonalApi::VERSION}" 
+  end
+ # end of the random method for testing @@@@@@@@@@@@@@@@@@@@@
   def initialize(at, cl_id)
     @access_token = at
     @client_id = cl_id

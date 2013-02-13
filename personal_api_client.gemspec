@@ -9,8 +9,10 @@ Gem::Specification.new do |s|
   s.description = "Personal library for easier interaction with Personal API"
   s.authors     = ["Adnan Karac"]
   s.add_runtime_dependency "oauth2", ["= 0.8.0"]
+  s.add_development_dependency 'rspec', '~> 2.5'
   s.email       = 'adnan@personal.com'
   s.files       = `git ls-files`.split($\)
+  s.test_files  = Dir.glob("{spec,test}/**/*.rb")
   s.require_paths = ["lib"]
   s.rubyforge_project = 'personal_api_client'
   s.homepage    = ""
