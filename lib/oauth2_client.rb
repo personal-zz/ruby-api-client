@@ -69,11 +69,10 @@ class Oauth2Client
   def prepare_params(params)
     if strategy==:auth_code
       raise Oauth2ClientException("You must specify code and callback_uri") unless params[:code] && params[:callback_uri]
-      return_list = [params[:code], {:redirect_uri=>params[:callback_uri]}]
+      [params[:code], {:redirect_uri=>params[:callback_uri]}]
     elsif strategy==:client_credentials
-      return_list = []
+      []
     end
-    return_list
   end
 end
 
